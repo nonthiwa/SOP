@@ -1,0 +1,36 @@
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.*;
+
+@SpringBootApplication
+@RestController
+public class DemoApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(DemoApplication.class, args);
+        System.out.println("Start");
+
+    }
+    @RequestMapping(value = "/add/{num1}/{num2}", method = RequestMethod.GET)
+    public String add(@PathVariable double num1, @PathVariable double num2) {
+        return String.valueOf(num1 + num2);
+    }
+    @RequestMapping(value = "/minus/{num1}/{num2}", method = RequestMethod.GET)
+    public String minus(@PathVariable double num1,@PathVariable double num2){
+        return String.valueOf(num1 - num2);
+    }
+    @RequestMapping(value = "/multiply", method = RequestMethod.GET)
+    public String multiply(@RequestParam double num1,@RequestParam double num2){
+        return  String.valueOf(num1 * num2);
+    }
+    @RequestMapping(value = "/divide", method = RequestMethod.GET)
+    public String divide(@RequestParam double num1,@RequestParam double num2){
+        return String.valueOf(num1 / num2);
+   }
+    @RequestMapping(value = "/{name}.generate", method = RequestMethod.GET)
+    public String generate(@PathVariable String name){
+        return "Hi, "+name+"\n"+"Your new password is "+Math.round(Math.random() * Math.pow(10,9))+".";
+    }
+}
