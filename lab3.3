@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.week3;
 
 public class Customer {
     private String ID;
@@ -40,7 +40,7 @@ public class Customer {
     }
 
     public void setSex(String sex) {
-        if (sex.toUpperCase() == "MALE"){
+        if (sex.equalsIgnoreCase("MALE")){
             this.sex = true;
         }
         else {this.sex = false;}
@@ -51,7 +51,7 @@ public class Customer {
     }
 
     public void setAge(int age) {
-        if (age < 0){
+        if (age <= 0){
             this.age = 0;
         }
         else this.age = age;
