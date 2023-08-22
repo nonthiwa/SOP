@@ -12,10 +12,19 @@ public class Customer {
         this.sex = false;
         this.age = 0;
     }
-    public Customer(String ID,String n,boolean s,int a){
+//    public Customer(String ID,String n,boolean s,int a){
+//        this.ID = ID;
+//        this.name = n;
+//        this.sex = s;
+//        this.age = a;
+//    }
+    public Customer(String ID,String n,String s,int a){
         this.ID = ID;
         this.name = n;
-        this.sex = s;
+        if (s.equalsIgnoreCase("MALE")){
+            this.sex = true;
+        }
+        else {this.sex = false;}
         this.age = a;
     }
 
