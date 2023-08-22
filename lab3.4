@@ -9,11 +9,11 @@ import java.util.List;
 public class CustomerController {
     private List<Customer> customers = new ArrayList<>();
     public CustomerController(){
-        customers.add(new Customer("1010","John",true,25));
-        customers.add(new Customer("1018","Peter",true,24));
-        customers.add(new Customer("1019","Sara",false,23));
-        customers.add(new Customer("1110","Rose",false,23));
-        customers.add(new Customer("1001","Emma",false,30));
+        customers.add(new Customer("1010","John","male",25));
+        customers.add(new Customer("1018","Peter","male",24));
+        customers.add(new Customer("1019","Sara","female",23));
+        customers.add(new Customer("1110","Rose","female",23));
+        customers.add(new Customer("1001","Emma","female",30));
     }
 
     @RequestMapping(value = "/customers", method = RequestMethod.GET)
@@ -71,18 +71,15 @@ public class CustomerController {
             return false;
         }
     }
-    @RequestMapping(value = "/addCustomer", method = RequestMethod.GET)
+    @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
     public boolean addCustomer(@RequestParam String id, @RequestParam String n, @RequestParam String s, @RequestParam int a){
         for (Customer customer : this.customers) {
             if (customer.getID().equals(id)) {
-                return false; // Return false to indicate failure
+                return false;
             }
         }
-        boolean sex = Boolean.parseBoolean(s);
-        // Create a new customer and add it to the list
-        Customer newCustomer = new Customer(id, n, sex, a);
+        Customer newCustomer = new Customer(id, n, s, a);
         this.customers.add(newCustomer);
-
-        return true; // Return true to indicate success
+        return true;
     }
 }
