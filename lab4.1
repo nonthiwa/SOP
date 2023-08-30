@@ -1,6 +1,9 @@
-package com.example.week4;
+package com.example.week4test;
 
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 public class MathAPI {
@@ -24,11 +27,17 @@ public class MathAPI {
     public double myMod(@PathVariable double n1,@PathVariable double n2){
         return  n1%n2;
     }
-    @RequestMapping(value = "/max", method = RequestMethod.POST)
-    public double myMax(@RequestParam double n1, @RequestParam double n2){
-        if (n1 >= n2){
-            return n1;
-        }
-        else {return  n2;}
+    //@RequestMapping(value = "/max", method = RequestMethod.POST)
+    //public String myMax(@RequestBody MyNumber n){
+    //    return Double.toString(Math.max(n.getN1(), n.getN2())) + "";
+    //}
+    @RequestMapping(value="/max", method= RequestMethod.POST)
+    public String myMax(@RequestBody MultiValueMap<String, String> n) {
+        Map<String, String> d = n.toSingleValueMap();
+        double n1 = Double.parseDouble(d.get("n1"));
+        double n2 = Double.parseDouble(d.get("n2"));
+        double out = Math.max(n1, n2);
+        return out + "";
     }
+
 }
