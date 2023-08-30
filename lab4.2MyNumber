@@ -1,0 +1,16 @@
+package com.example.week4test;
+
+public class MyNumber {
+    private double num1, num2;
+
+    public MyNumber(double num1, double num2) {
+        this.num1 = num1;
+        this.num2 = num2;
+    }
+    public double getN1() {
+        return num1;
+    }
+    public double getN2() {
+        return num2;
+    }
+}
