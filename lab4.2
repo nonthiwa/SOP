@@ -1,10 +1,15 @@
-package com.example.week4new;
+package com.example.week4test;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.button.Button;
+import org.springframework.http.MediaType;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Route(value = "index1")
 public class MathView extends VerticalLayout {
@@ -33,7 +38,7 @@ public class MathView extends VerticalLayout {
                     .bodyToMono(String.class)
                     .block();
 
-                ans.setValue(out);
+            ans.setValue(out);
         });
         btnMinus.addClickListener(event -> {
             double num1 = Double.parseDouble(n1.getValue());
@@ -87,20 +92,33 @@ public class MathView extends VerticalLayout {
 
             ans.setValue(out);
         });
+        //btnMax.addClickListener(event -> {
+            //double num1 = Double.parseDouble(n1.getValue());
+            //double num2 = Double.parseDouble(n2.getValue());
+
+            //String out = WebClient.create()
+                    //.post()
+                    //.uri("http://localhost:8080/max")
+                    //.body(Mono.just(new MyNumber(num1, num2)), MyNumber.class)
+                    //.retrieve()
+                    //.bodyToMono(String.class)
+                    //.block();
+
+            //ans.setValue(out);
+        //});
         btnMax.addClickListener(event -> {
-            double num1 = Double.parseDouble(n1.getValue());
-            double num2 = Double.parseDouble(n2.getValue());
+            MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
+            formData.add("n1", n1.getValue());
+            formData.add("n2", n2.getValue());
 
             String out = WebClient.create()
                     .post()
                     .uri("http://localhost:8080/max")
-                    .body(Mono.just(new MyNumber(num1, num2)), MyNumber.class)
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
+                    .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                    .body(BodyInserters.fromFormData(formData))
+                    .retrieve().bodyToMono(String.class).block();
 
             ans.setValue(out);
         });
-
     }
 }
