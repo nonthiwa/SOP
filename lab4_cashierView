@@ -1,0 +1,49 @@
+package com.example.week4test;
+
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.router.Route;
+import org.springframework.web.reactive.function.client.WebClient;
+
+@Route(value="/index2")
+public class CashierView extends VerticalLayout {
+    public CashierView(){
+        TextField moneyText = new TextField("เงินทอน");
+        moneyText.setPrefixComponent(new Span("$"));
+        Button chargeButton = new Button("คำนวณเงินทอน");
+        TextField b1000txt = new TextField();
+        b1000txt.setPrefixComponent(new Span("$1000:"));
+        TextField b500txt = new TextField();
+        b500txt.setPrefixComponent(new Span("$500:"));
+        TextField b100txt = new TextField();
+        b100txt.setPrefixComponent(new Span("$100:"));
+        TextField b20txt = new TextField();
+        b20txt.setPrefixComponent(new Span("$20:"));
+        TextField b10txt = new TextField();
+        b10txt.setPrefixComponent(new Span("$10:"));
+        TextField b5txt = new TextField();
+        b5txt.setPrefixComponent(new Span("$5:"));
+        TextField b1txt = new TextField();
+        b1txt.setPrefixComponent(new Span("$1:"));
+
+        add(moneyText, chargeButton, b1000txt, b500txt, b100txt, b20txt, b10txt, b5txt, b1txt);
+
+        chargeButton.addClickListener(event -> {
+            int money = Integer.parseInt(moneyText.getValue());
+            Change out = WebClient.create()
+                    .get()
+                    .uri("http://localhost:8080/getChange/" + money)
+                    .retrieve().bodyToMono(Change.class).block();
+
+            b1000txt.setValue(Integer.toString(out.getB1000()));
+            b500txt.setValue(Integer.toString(out.getB500()));
+            b100txt.setValue(Integer.toString(out.getB100()));
+            b20txt.setValue(Integer.toString(out.getB20()));
+            b10txt.setValue(Integer.toString(out.getB10()));
+            b5txt.setValue(Integer.toString(out.getB5()));
+            b1txt.setValue(Integer.toString(out.getB1()));
+        });
+    }
+}
