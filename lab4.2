@@ -1,5 +1,7 @@
 package com.example.week4test;
 
+import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.component.textfield.TextField;
@@ -15,17 +17,22 @@ import reactor.core.publisher.Mono;
 public class MathView extends VerticalLayout {
     private TextField n1,n2,ans;
     private Button btnPlus,btnMinus,btnMulti,btnDivide,btnMod,btnMax;
+    private Paragraph buttonText;
+    private HorizontalLayout buttonGroup;
     public MathView(){
         n1 = new TextField("Number1");
         n2 = new TextField("Number2");
         ans = new TextField("Answer");
+        buttonText = new Paragraph("Operators");
         btnPlus = new Button("+");
         btnMinus = new Button("-");
         btnMulti = new Button("x");
         btnDivide = new Button("/");
         btnMod = new Button("Mod");
         btnMax = new Button("Max");
-        add(n1, n2, ans, btnPlus, btnMinus, btnMulti,btnDivide,btnMod,btnMax);
+        buttonGroup = new HorizontalLayout(btnPlus, btnMinus
+                , btnMulti, btnDivide, btnMod, btnMax);
+        add(n1, n2, buttonText,buttonGroup, ans);
 
         btnPlus.addClickListener(event -> {
             double num1 = Double.parseDouble(n1.getValue());
@@ -92,20 +99,6 @@ public class MathView extends VerticalLayout {
 
             ans.setValue(out);
         });
-        //btnMax.addClickListener(event -> {
-            //double num1 = Double.parseDouble(n1.getValue());
-            //double num2 = Double.parseDouble(n2.getValue());
-
-            //String out = WebClient.create()
-                    //.post()
-                    //.uri("http://localhost:8080/max")
-                    //.body(Mono.just(new MyNumber(num1, num2)), MyNumber.class)
-                    //.retrieve()
-                    //.bodyToMono(String.class)
-                    //.block();
-
-            //ans.setValue(out);
-        //});
         btnMax.addClickListener(event -> {
             MultiValueMap<String, String> formData = new LinkedMultiValueMap<>();
             formData.add("n1", n1.getValue());
@@ -120,5 +113,19 @@ public class MathView extends VerticalLayout {
 
             ans.setValue(out);
         });
+        //btnMax.addClickListener(event -> {
+        //double num1 = Double.parseDouble(n1.getValue());
+        //double num2 = Double.parseDouble(n2.getValue());
+
+        //String out = WebClient.create()
+        //.post()
+        //.uri("http://localhost:8080/max")
+        //.body(Mono.just(new MyNumber(num1, num2)), MyNumber.class)
+        //.retrieve()
+        //.bodyToMono(String.class)
+        //.block();
+
+        //ans.setValue(out);
+        //});
     }
 }
