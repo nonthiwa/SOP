@@ -1,0 +1,32 @@
+package com.example.week4test;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class Cashier {
+
+    @RequestMapping(value = "/getChange/{n}", method = RequestMethod.GET)
+    public Change getChange(@PathVariable int n){
+        int numLeft = n;
+        System.out.println("num=" + numLeft);
+        Change charge = new Change();
+
+        charge.setB1000(numLeft / 1000);
+        numLeft -= numLeft - (numLeft % 1000);
+        charge.setB500(numLeft / 500);
+        numLeft -= numLeft - (numLeft % 500);
+        charge.setB100(numLeft / 100);
+        numLeft -= numLeft - (numLeft % 100);
+        charge.setB20(numLeft / 20);
+        numLeft -= numLeft - (numLeft % 20);
+        charge.setB10(numLeft / 10);
+        numLeft -= numLeft - (numLeft % 10);
+        charge.setB5(numLeft / 5);
+        numLeft -= numLeft - (numLeft % 5);
+        charge.setB1(numLeft);
+        return charge;
+    }
+}
