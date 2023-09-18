@@ -1,0 +1,10 @@
+
+
+import java.util.ArrayList;
+
+public class Wizards {
+    public ArrayList<Wizard> model;
+    public ArrayList<Wizard> getModel() {
+        return model;
+    }
+}
